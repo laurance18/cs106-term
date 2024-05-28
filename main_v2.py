@@ -120,18 +120,13 @@ def find_intersection(slope1, intercept1, slope2, intercept2):
 
     return (x, y)
 
-perpendicular_lines = []
+
 for i in range(len(unit_vector_mp)): # Draw perpendicular lines from the midpoint of unit vectors
   slope = perp_lines_slope[i]
   x_intercept = unit_vector_mp[i][0]
   y_intercept = unit_vector_mp[i][1]
   x_values = np.linspace(-15, 15, 100)
   y_values = slope * (x_values - x_intercept) + y_intercept
-  start_x = x_values[0]
-  start_y = y_values[0]
-  end_x = x_values[-1]
-  end_y = y_values[-1]
-  perpendicular_lines.append((start_x, start_y, end_x, end_y))
   plt.plot(x_values, y_values, 'y-')
 
 intersections = []
