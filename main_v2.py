@@ -10,7 +10,8 @@ current_seedX = []
 current_seedY = []
 distances = []
 
-removed_seeds = []
+removed_seedsX = []
+removed_seedsY = []
 previous_seeds = []
 
 # SECTION: Random point generation
@@ -85,9 +86,10 @@ for _ in range(2):
     # SECTION: Calculate dot product and remove accordingly
     dot_product = unit_x_from * unit_vector_x + unit_y_from * unit_vector_y
     if dot_product < 0:
-      plt.arrow(perm_seedX[i], perm_seedY[i], unit_x_from, unit_y_from, head_width=0.3, head_length=0.3, fc='red', ec='red')
+      removed_seedsX.append(perm_seedX[i]) # Add to removed seeds for future reference
+      removed_seedsY.append(perm_seedY[i])
     else:
-      plt.arrow(perm_seedX[i], perm_seedY[i], unit_x_from, unit_y_from, head_width=0.3, head_length=0.3, fc='blue', ec='blue')
+      continue
 
 # Set graph axes
 plt.xlim(-15, 15)
@@ -95,4 +97,6 @@ plt.ylim(-15, 15)
 
 plt.plot(0, 0, 'x', markersize=10, color='orange')
 plt.plot(current_seedX[1:], current_seedY[1:], ".b", markersize=5)
+plt.plot(removed_seedsX[:], removed_seedsY[:], ".r", markersize=5)
 plt.show()
+
