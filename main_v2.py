@@ -55,6 +55,12 @@ for _ in range(1):
   closest_x, closest_y = find_closest()
   print(f"Closest seed {len(previous_seeds)}: {closest_x}, {closest_y}")
 
+  # Calculate and draw unit vector
+  magnitude = math.sqrt(closest_x**2 + closest_y**2)
+  unit_vector_x = -1*(closest_x / magnitude) # Multiply by -1 to flip the unit vector
+  unit_vector_y = -1*(closest_y / magnitude)
+  plt.arrow(closest_x, closest_y, unit_vector_x, unit_vector_y, head_width=0.3, head_length=0.3, fc='red', ec='red')
+
 # Set graph axes
 plt.xlim(-15, 15)
 plt.ylim(-15, 15)
