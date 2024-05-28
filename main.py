@@ -51,7 +51,7 @@ def find_closest(): # Identify the closest point to the origin
 for _ in range(3):
   closest_x, closest_y = find_closest()
   
-  # Draw a line from origin to Pc
+  # Draw a line from origin to the closest point
   plt.plot([0, closest_x], [0, closest_y], 'r--')
 
   # Find the unit vector
@@ -60,8 +60,14 @@ for _ in range(3):
   unit_vector_y = -1*(closest_y / magnitude)
   plt.arrow(closest_x, closest_y, unit_vector_x, unit_vector_y, head_width=0.3, head_length=0.5, fc='b', ec='b')
 
+  # Draw a line perpendicular to the unit vector
+  perpendicular_x = -unit_vector_y
+  perpendicular_y = unit_vector_x
+  x_values = [-15, 15] # Seemingly infinite line (ray)
+  y_values = [closest_y + perpendicular_y * (x - closest_x) / perpendicular_x for x in x_values]
+  plt.plot(x_values, y_values, 'g--')
 
 # Show plot
 plt.plot(0, 0, 'x', markersize=10, color='purple')
-plt.plot(seedX[1:], seedY[1:], "*")
+plt.plot(seedX[1:], seedY[1:], "*", markersize=5)
 plt.show()
