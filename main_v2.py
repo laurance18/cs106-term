@@ -14,7 +14,8 @@ removed_seedsX = []
 removed_seedsY = []
 previous_seeds = []
 
-all_coords = []
+unit_vector_mp = []
+perp_lines_slope = []
 
 # SECTION: Random point generation
 def generate_random(num=20):
@@ -42,7 +43,7 @@ for x, y, d in zip(perm_seedX, perm_seedY, distances):
 
 # SECTION: Fi the closest seeds to the origin
 def find_closest():
-  global previous_seeds, distances, all_coords
+  global previous_seeds, distances
 
   distances_copy = distances[:]
   distances_copy[0] = 100 # Arbitrary large number / Will help us to figure out when to end the loop
@@ -68,6 +69,9 @@ while True: # Will be broken when there are no more seeds to process (closest_x 
 
   # SECTION: Draw line from closest point to the origin
   plt.plot([0, closest_x], [0, closest_y], '--', color="purple")
+  midpoint_x = (0 + closest_x) / 2 # Record the midpoint of unit vector
+  midpoint_y = (0 + closest_y) / 2
+  unit_vector_mp.append((midpoint_x, midpoint_y))
 
   # SECTION: Calculate and draw unit vector
   magnitude = math.sqrt(closest_x**2 + closest_y**2)
@@ -80,9 +84,8 @@ while True: # Will be broken when there are no more seeds to process (closest_x 
   perpendicular_y = unit_vector_x
   x_values = np.linspace(-15, 15, 100) # Seemingly infinite line (ray)
   y_values = [closest_y + perpendicular_y * (x - closest_x) / perpendicular_x for x in x_values]
-  coordinates = [(x, y) for x, y in zip(x_values, y_values) if -15 <= y <= 15]
-  all_coords.append(coordinates)
   plt.plot(x_values, y_values, 'g--')
+  perp_lines_slope.append(perpendicular_y / perpendicular_x) # Record the slope of the perpendicular line
 
   # SECTION: Draw unit vectors from closest to other seeds
   for i in range(1, len(perm_seedX)):
@@ -103,6 +106,14 @@ while True: # Will be broken when there are no more seeds to process (closest_x 
       continue
 
 # SECTION: Voronoi diagram
+
+for i in range(len(unit_vector_mp)): # Draw perpendicular lines from the midpoint of unit vectors
+  slope = perp_lines_slope[i]
+  x_intercept = unit_vector_mp[i][0]
+  y_intercept = unit_vector_mp[i][1]
+  x_values = np.linspace(-15, 15, 100)
+  y_values = slope * (x_values - x_intercept) + y_intercept
+  plt.plot(x_values, y_values, 'y-')
 
 print("Voronoi diagram completed.")
 
