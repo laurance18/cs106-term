@@ -10,6 +10,7 @@ current_seedX = []
 current_seedY = []
 distances = []
 
+removed_seeds = []
 previous_seeds = []
 
 # SECTION: Random point generation
@@ -71,10 +72,27 @@ for _ in range(2):
   y_values = [closest_y + perpendicular_y * (x - closest_x) / perpendicular_x for x in x_values]
   plt.plot(x_values, y_values, 'g--')
 
+  # SECTION: Draw unit vectors from closest to other seeds
+  for i in range(1, len(perm_seedX)):
+    if perm_seedX[i] == closest_x and perm_seedY[i] == closest_y:
+      continue
+    dx = perm_seedX[i] - closest_x
+    dy = perm_seedY[i] - closest_y
+    magnitude = math.sqrt(dx**2 + dy**2)
+    unit_x_from = dx / magnitude
+    unit_y_from = dy / magnitude
+
+    # SECTION: Calculate dot product and remove accordingly
+    dot_product = unit_x_from * unit_vector_x + unit_y_from * unit_vector_y
+    if dot_product < 0:
+      plt.arrow(perm_seedX[i], perm_seedY[i], unit_x_from, unit_y_from, head_width=0.3, head_length=0.3, fc='red', ec='red')
+    else:
+      plt.arrow(perm_seedX[i], perm_seedY[i], unit_x_from, unit_y_from, head_width=0.3, head_length=0.3, fc='blue', ec='blue')
+
 # Set graph axes
 plt.xlim(-15, 15)
 plt.ylim(-15, 15)
 
 plt.plot(0, 0, 'x', markersize=10, color='orange')
-plt.plot(perm_seedX[1:], perm_seedY[1:], ".b", markersize=5)
+plt.plot(current_seedX[1:], current_seedY[1:], ".b", markersize=5)
 plt.show()
