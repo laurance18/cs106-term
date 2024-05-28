@@ -14,6 +14,8 @@ removed_seedsX = []
 removed_seedsY = []
 previous_seeds = []
 
+all_coords = []
+
 # SECTION: Random point generation
 def generate_random(num=20):
   global current_seedX, current_seedY, perm_seedX, perm_seedY
@@ -40,21 +42,28 @@ for x, y, d in zip(perm_seedX, perm_seedY, distances):
 
 # SECTION: Fi the closest seeds to the origin
 def find_closest():
-  global previous_seeds
-  distance_wo_origin = distances[1:]
+  global previous_seeds, distances, all_coords
 
-  closest_index = distance_wo_origin.index(min(distance_wo_origin))
-  while perm_seedX[closest_index+1] in previous_seeds:
-    distance_wo_origin[closest_index] = math.inf
-    closest_index = distance_wo_origin.index(min(distance_wo_origin))
-  closest_x = perm_seedX[closest_index+1]
-  closest_y = perm_seedY[closest_index+1]
+  distances_copy = distances[:]
+  distances_copy[0] = 100 # Arbitrary large number / Will help us to figure out when to end the loop
 
-  previous_seeds.append(perm_seedX[closest_index+1])
+  for i in range(1,len(current_seedX)):
+    if current_seedX[i] in previous_seeds:
+      distances_copy[i] = 100 # Arbitrary large number
+    if current_seedX[i] in removed_seedsX:
+      distances_copy[i] = 100
+
+  closest_index = distances_copy.index(min(distances_copy))
+  closest_x = current_seedX[closest_index]
+  closest_y = current_seedY[closest_index]
+
+  previous_seeds.append(perm_seedX[closest_index])
   return closest_x, closest_y
 
-for _ in range(2):
+while True: # Will be broken when there are no more seeds to process (closest_x == 0 and closest_y == 0)
   closest_x, closest_y = find_closest()
+  if closest_x == 0 and closest_y == 0:
+    break
   print(f"Closest seed {len(previous_seeds)}: {closest_x}, {closest_y}")
 
   # SECTION: Draw line from closest point to the origin
@@ -69,8 +78,10 @@ for _ in range(2):
   # SECTION: Draw a line perpendicular to the unit vector
   perpendicular_x = -unit_vector_y
   perpendicular_y = unit_vector_x
-  x_values = [-15, 15] # Seemingly infinite line (ray)
+  x_values = np.linspace(-15, 15, 100) # Seemingly infinite line (ray)
   y_values = [closest_y + perpendicular_y * (x - closest_x) / perpendicular_x for x in x_values]
+  coordinates = [(x, y) for x, y in zip(x_values, y_values) if -15 <= y <= 15]
+  all_coords.append(coordinates)
   plt.plot(x_values, y_values, 'g--')
 
   # SECTION: Draw unit vectors from closest to other seeds
@@ -91,11 +102,15 @@ for _ in range(2):
     else:
       continue
 
+# SECTION: Voronoi diagram
+
+print("Voronoi diagram completed.")
+
 # Set graph axes
 plt.xlim(-15, 15)
 plt.ylim(-15, 15)
 
-plt.plot(0, 0, 'x', markersize=10, color='orange')
+plt.plot(0, 0, '*', markersize=8, color='orange')
 plt.plot(current_seedX[1:], current_seedY[1:], ".b", markersize=5)
 plt.plot(removed_seedsX[:], removed_seedsY[:], ".r", markersize=5)
 plt.show()
