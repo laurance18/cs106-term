@@ -120,14 +120,15 @@ def find_intersection(slope1, intercept1, slope2, intercept2):
 
     return (x, y)
 
+# SECTION: Find Voronoi Cell
 
-for i in range(len(unit_vector_mp)): # Draw perpendicular lines from the midpoint of unit vectors
-  slope = perp_lines_slope[i]
-  x_intercept = unit_vector_mp[i][0]
-  y_intercept = unit_vector_mp[i][1]
-  x_values = np.linspace(-15, 15, 100)
-  y_values = slope * (x_values - x_intercept) + y_intercept
-  plt.plot(x_values, y_values, 'y-')
+# for i in range(len(unit_vector_mp)): # Draw perpendicular lines from the midpoint of unit vectors
+#   slope = perp_lines_slope[i]
+#   x_intercept = unit_vector_mp[i][0]
+#   y_intercept = unit_vector_mp[i][1]
+#   x_values = np.linspace(-15, 15, 100)
+#   y_values = slope * (x_values - x_intercept) + y_intercept
+#   # plt.plot(x_values, y_values, 'y-')
 
 intersections = []
 for i in range(len(perp_lines_slope)):
@@ -139,15 +140,29 @@ for i in range(len(perp_lines_slope)):
         intersection = find_intersection(slope1, intercept1, slope2, intercept2)
         if intersection is not None and intersection[0] >= -15 and intersection[0] <= 15 and intersection[1] >= -15 and intersection[1] <= 15:
             intersections.append(intersection)
+
+for i in range(len(unit_vector_mp)): # Draw perpendicular lines from the midpoint of unit vectors
+  slope = perp_lines_slope[i]
+  x_intercept = unit_vector_mp[i][0]
+  y_intercept = unit_vector_mp[i][1]
+  
+  # Find the intersection points for the current line
+  current_line_intersections = [p for p in intersections if abs((slope * (p[0] - x_intercept) + y_intercept) - p[1]) < 1e-6]
+  
+  # If there are intersection points, use them to limit the range of x_values
+  if current_line_intersections:
+    x_values = np.linspace(min(p[0] for p in current_line_intersections), max(p[0] for p in current_line_intersections), 100)
+  else:
+    x_values = np.linspace(-15, 15, 100)
+  
+  y_values = slope * (x_values - x_intercept) + y_intercept
+  plt.plot(x_values, y_values, 'y-')
+
 plt.plot([x[0] for x in intersections], [x[1] for x in intersections], 'ro', markersize=5)
 
-intersection_lines = []
-for intersection in intersections:
-  # plt.plot([0, intersection[0]], [0, intersection[1]], '--', color="purple")
-  intersection_lines.append([0, intersection[0], 0, intersection[1]])
 
-# SECTION: Draw Voronoi cell
-
+# for intersection in intersections:
+#   plt.plot([0, intersection[0]], [0, intersection[1]], '--', color="purple")
 
 
 print("Voronoi diagram completed.")
@@ -157,7 +172,7 @@ plt.xlim(-15, 15)
 plt.ylim(-15, 15)
 
 plt.plot(0, 0, '*', markersize=8, color='orange')
-plt.plot(current_seedX[1:], current_seedY[1:], ".b", markersize=5)
+plt.plot(perm_seedX[1:], perm_seedY[1:], ".b", markersize=5)
 # plt.plot(removed_seedsX[:], removed_seedsY[:], ".r", markersize=5)
 plt.show()
 
