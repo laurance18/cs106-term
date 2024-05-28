@@ -3,6 +3,8 @@ import math
 import matplotlib.pyplot as plt
 import random
 
+original_seedX = [0]
+original_seedY = [0]
 seedX = [0]
 seedY = [0]
 final_seedX = [0]
@@ -13,6 +15,8 @@ closestY = []
 
 # SECTION: Random point generation
 def generate_random(num=20):
+  global seedX, seedY, original_seedX, original_seedY
+  
   for _ in range(num-1):
     r = random.uniform(2.5, 15)
     theta = math.radians(random.choice([x for x in range(361) if x not in [0, 90, 180, 360]]))
@@ -20,6 +24,8 @@ def generate_random(num=20):
     y = r * math.sin(theta)
     seedX.append(round(x, 2))
     seedY.append(round(y, 2))
+  original_seedX = seedX.copy()
+  original_seedY = seedY.copy()
 generate_random()
 
 # SECTION: Distance calculation
@@ -43,11 +49,11 @@ def find_closest(): # Identify the closest point to the origin
   distances_copy = distances[1:]
 
   closest_index = distances_copy.index(min(distances_copy))
-  while seedX[closest_index+1] in closestX:
+  while original_seedX[closest_index+1] in closestX:
     distances_copy[closest_index] = math.inf
-    closest_index = np.argmin(distances_copy)
-  closest_x = seedX[closest_index+1]
-  closest_y = seedY[closest_index+1]
+    closest_index = distances_copy.index(min(distances_copy))
+  closest_x = original_seedX[closest_index+1]
+  closest_y = original_seedY[closest_index+1]
 
   closestX.append(closest_x)
   closestY.append(closest_y)
@@ -55,7 +61,7 @@ def find_closest(): # Identify the closest point to the origin
   return closest_x, closest_y
 
 # SECTION: Main Loop
-for _ in range(1):
+for _ in range(2):
   closest_x, closest_y = find_closest()
   print(f"Closest point: ({closest_x}, {closest_y})")
   
