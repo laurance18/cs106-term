@@ -58,12 +58,8 @@ for _ in range(3):
   magnitude = math.sqrt(closest_x**2 + closest_y**2)
   unit_vector_x = -1*(closest_x / magnitude) # Reverse the direction so that it points to origin
   unit_vector_y = -1*(closest_y / magnitude)
-  plt.arrow(closest_x, closest_y, -unit_vector_x, -unit_vector_y, head_width=0.3, head_length=0.5, fc='b', ec='b')
+  plt.arrow(closest_x, closest_y, unit_vector_x, unit_vector_y, head_width=0.3, head_length=0.5, fc='b', ec='b')
 
-  # Draw a perpendicular line to unit vector
-  perpendicular_x = -unit_vector_y
-  perpendicular_y = unit_vector_x
-  plt.plot([closest_x-perpendicular_x*100, closest_x+perpendicular_x*100], [closest_y-perpendicular_y*100, closest_y+perpendicular_y*100], 'g--')
 
 # Show plot
 plt.plot(0, 0, 'x', markersize=10, color='purple')
