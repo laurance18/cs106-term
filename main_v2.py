@@ -164,6 +164,7 @@ plt.plot([x[0] for x in intersections], [x[1] for x in intersections], 'ro', mar
 for intersection in intersections:
   plt.plot([0, intersection[0]], [0, intersection[1]], '--', color="purple")
 
+# TODO: Find the correct Voronoi cell
 
 print("Voronoi diagram completed.")
 
