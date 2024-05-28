@@ -38,10 +38,10 @@ plt.ylim(-15, 15)
 def find_closest(): # Identify the closest point to the origin
   distances_copy = distances.copy()
   
-  closest_index = distances.index(min(distances_copy[1:]))
+  closest_index = distances_copy.index(min(distances_copy[1:]))
   while closest_index in closest_seeds_index:
     distances_copy[closest_index] = 100
-    closest_index = distances.index(min(distances_copy[1:]))
+    closest_index = distances_copy.index(min(distances_copy[1:]))
 
   closest_x = seedX[closest_index]
   closest_y = seedY[closest_index]
