@@ -5,6 +5,8 @@ import random
 
 seedX = [0]
 seedY = [0]
+final_seedX = [0]
+final_seedY = [0]
 distances = [0]
 closest_seeds_index = []
 
@@ -12,7 +14,7 @@ closest_seeds_index = []
 def generate_random(num=20):
   for _ in range(num-1):
     r = random.uniform(2.5, 15)
-    theta = math.radians(random.uniform(0, 360))
+    theta = math.radians(random.uniform(5, 360))
     x = r * math.cos(theta)
     y = r * math.sin(theta)
     seedX.append(round(x, 2))
@@ -50,7 +52,7 @@ def find_closest(): # Identify the closest point to the origin
   return closest_x, closest_y
 
 # SECTION: Main Loop
-for _ in range(3):
+for _ in range(2):
   closest_x, closest_y = find_closest()
   
   # Draw a line from origin to the closest point
@@ -68,6 +70,34 @@ for _ in range(3):
   x_values = [-15, 15] # Seemingly infinite line (ray)
   y_values = [closest_y + perpendicular_y * (x - closest_x) / perpendicular_x for x in x_values]
   plt.plot(x_values, y_values, 'g--')
+
+  # SECTION: Draw unit vectors from closest to other seeds
+  seed_remove_index = []
+  for i in range(1, len(seedX)):
+    if i not in closest_seeds_index:
+      dx = seedX[i] - closest_x
+      dy = seedY[i] - closest_y
+      magnitude = math.sqrt(dx**2 + dy**2)
+      unit_x_to = (dx / magnitude)
+      unit_y_to = (dy / magnitude)
+
+      dot_product = unit_x_to * unit_vector_x + unit_y_to * unit_vector_y
+      if dot_product >= 0:
+        print(f"Seed {i} is on the same side as the origin")
+      else:
+        print(f"Seed {i} is on the opposite side as the origin")
+        seed_remove_index.append(i)
+  for k in range(1, len(seedX)): # Remove seeds at opposite side of the origin
+    if k in seed_remove_index:
+      continue
+    else:
+      final_seedX.append(seedX[k])
+      final_seedY.append(seedY[k])
+
+  seedX = final_seedX.copy() # Reset the lists
+  seedY = final_seedY.copy()
+  final_seedX = []
+  final_seedY = []
 
 # Show final plot
 plt.plot(0, 0, 'x', markersize=10, color='purple')
