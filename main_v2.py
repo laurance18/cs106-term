@@ -36,7 +36,7 @@ print("seedX\tseedY\tdistances")
 for x, y, d in zip(perm_seedX, perm_seedY, distances):
   print(f"{x}\t{y}\t{d}")
 
-# SECTION: Finding the closest seeds to the origin
+# SECTION: Fi the closest seeds to the origin
 def find_closest():
   global previous_seeds
   distance_wo_origin = distances[1:]
@@ -51,15 +51,25 @@ def find_closest():
   previous_seeds.append(perm_seedX[closest_index+1])
   return closest_x, closest_y
 
-for _ in range(1):
+for _ in range(2):
   closest_x, closest_y = find_closest()
   print(f"Closest seed {len(previous_seeds)}: {closest_x}, {closest_y}")
 
-  # Calculate and draw unit vector
+  # SECTION: Draw line from closest point to the origin
+  plt.plot([0, closest_x], [0, closest_y], '--', color="purple")
+
+  # SECTION: Calculate and draw unit vector
   magnitude = math.sqrt(closest_x**2 + closest_y**2)
   unit_vector_x = -1*(closest_x / magnitude) # Multiply by -1 to flip the unit vector
   unit_vector_y = -1*(closest_y / magnitude)
   plt.arrow(closest_x, closest_y, unit_vector_x, unit_vector_y, head_width=0.3, head_length=0.3, fc='red', ec='red')
+
+  # SECTION: Draw a line perpendicular to the unit vector
+  perpendicular_x = -unit_vector_y
+  perpendicular_y = unit_vector_x
+  x_values = [-15, 15] # Seemingly infinite line (ray)
+  y_values = [closest_y + perpendicular_y * (x - closest_x) / perpendicular_x for x in x_values]
+  plt.plot(x_values, y_values, 'g--')
 
 # Set graph axes
 plt.xlim(-15, 15)
