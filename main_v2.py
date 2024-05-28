@@ -84,7 +84,7 @@ while True: # Will be broken when there are no more seeds to process (closest_x 
   perpendicular_y = unit_vector_x
   x_values = np.linspace(-15, 15, 100) # Seemingly infinite line (ray)
   y_values = [closest_y + perpendicular_y * (x - closest_x) / perpendicular_x for x in x_values]
-  # plt.plot(x_values, y_values, 'g--')
+  plt.plot(x_values, y_values, 'g--')
   perp_lines_slope.append(perpendicular_y / perpendicular_x) # Record the slope of the perpendicular line
 
   # SECTION: Draw unit vectors from closest to other seeds
@@ -161,8 +161,8 @@ for i in range(len(unit_vector_mp)): # Draw perpendicular lines from the midpoin
 plt.plot([x[0] for x in intersections], [x[1] for x in intersections], 'ro', markersize=5)
 
 
-# for intersection in intersections:
-#   plt.plot([0, intersection[0]], [0, intersection[1]], '--', color="purple")
+for intersection in intersections:
+  plt.plot([0, intersection[0]], [0, intersection[1]], '--', color="purple")
 
 
 print("Voronoi diagram completed.")
