@@ -31,6 +31,6 @@ for x, y, d in zip(seedX, seedY, distances):
   print(f"{x}\t{y}\t{d}")
 
 # Show plot
-plt.scatter(0, 0, color='red')
-plt.scatter(seedX[1:], seedY[1:])
+plt.plot(0, 0, 'rx')
+plt.plot(seedX[1:], seedY[1:], "*")
 plt.show()
