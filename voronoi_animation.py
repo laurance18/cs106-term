@@ -23,7 +23,7 @@ plt.xlim(-15, 15)
 plt.ylim(-15, 15)
 
 plt.plot(0, 0, '*', markersize=8, color='orange')
-plt.pause(1)
+plt.pause(0.30)
 
 
 # SECTION: Random point generation
@@ -42,7 +42,7 @@ def generate_random(num=20):
 generate_random()
 
 plt.plot(perm_seedX[1:], perm_seedY[1:], ".b", markersize=5)
-plt.pause(1)
+plt.pause(0.30)
 
 # SECTION: Distance calculation
 for x, y in zip(perm_seedX, perm_seedY):
@@ -80,8 +80,8 @@ while True: # Will be broken when there are no more seeds to process (closest_x 
   print(f"Closest seed {len(previous_seeds)}: {closest_x}, {closest_y}")
 
   # SECTION: Draw line from closest point to the origin
-  plt.plot([0, closest_x], [0, closest_y], '--', color="purple")
-  plt.pause(1)
+  plt.plot([0, closest_x], [0, closest_y], '--', color="purple", linewidth=0.75)
+  plt.pause(0.30)
   midpoint_x = (0 + closest_x) / 2 # Record the midpoint of unit vector
   midpoint_y = (0 + closest_y) / 2
   unit_vector_mp.append((midpoint_x, midpoint_y))
@@ -90,7 +90,10 @@ while True: # Will be broken when there are no more seeds to process (closest_x 
   magnitude = math.sqrt(closest_x**2 + closest_y**2)
   unit_vector_x = -1*(closest_x / magnitude) # Multiply by -1 to flip the unit vector
   unit_vector_y = -1*(closest_y / magnitude)
-  # plt.arrow(closest_x, closest_y, unit_vector_x, unit_vector_y, head_width=0.3, head_length=0.3, fc='red', ec='red')
+  plt.arrow(closest_x, closest_y, unit_vector_x, unit_vector_y, head_width=0.3, head_length=0.3, fc='red', ec='red')
+  plt.pause(0.30)
+  plt.plot(midpoint_x, midpoint_y, 'go', markersize=5)
+  plt.pause(0.30)
 
   # SECTION: Draw a line perpendicular to the unit vector
   perpendicular_x = -unit_vector_y
@@ -98,7 +101,7 @@ while True: # Will be broken when there are no more seeds to process (closest_x 
   x_values = np.linspace(-15, 15, 100) # Seemingly infinite line (ray)
   y_values = [closest_y + perpendicular_y * (x - closest_x) / perpendicular_x for x in x_values]
   plt.plot(x_values, y_values, 'g--')
-  plt.pause(1)
+  plt.pause(0.30)
   perp_lines_slope.append(perpendicular_y / perpendicular_x) # Record the slope of the perpendicular line
 
   # SECTION: Draw unit vectors from closest to other seeds
@@ -158,7 +161,7 @@ for i in range(len(unit_vector_mp)): # Draw perpendicular lines from the midpoin
   current_line_intersections.sort(key=lambda p: p[0])
 
   plt.plot(x_values, y_values, 'y-')
-  plt.pause(1)
+  plt.pause(0.30)
 
   # SECTION: Draw the Voronoi Cell
   # WORKAROUND: If an unit_vector midpoint is between two instersections, it is valid
@@ -183,23 +186,20 @@ for i in range(len(unit_vector_mp)): # Draw perpendicular lines from the midpoin
   if closest_left is not None and closest_right is not None and closest_left[0] <= unit_vector_mp[i][0] <= closest_right[0]:
     # Draw a line between closest_left and closest_right
     plt.plot([closest_left[0], closest_right[0]], [closest_left[1], closest_right[1]], 'r-')
-    plt.pause(1)
+    plt.plot([closest_left[0], closest_right[0]], [closest_left[1], closest_right[1]], 'r.')
+    plt.pause(0.30)
     
-plt.plot([x[0] for x in intersections], [x[1] for x in intersections], 'ro', markersize=5)
-plt.pause(1)
 
-for point in unit_vector_mp:
-  plt.plot(point[0], point[1], 'go', markersize=5)
-plt.pause(1)
+# for point in unit_vector_mp:
+#   plt.plot(point[0], point[1], 'go', markersize=5)
+# plt.pause(0.30)
 
-for intersection in intersections:
-  plt.plot([0, intersection[0]], [0, intersection[1]], '--', color="purple")
-plt.pause(1)
+# for intersection in intersections:
+#   plt.plot([0, intersection[0]], [0, intersection[1]], '--', color="purple")
+# plt.pause(0.30)
 
 
 print("Voronoi diagram completed.")
 
-
 plt.ioff()
-plt.plot(removed_seedsX[:], removed_seedsY[:], ".r", markersize=5)
 plt.show()
