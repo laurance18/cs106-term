@@ -68,7 +68,6 @@ while True: # Will be broken when there are no more seeds to process (closest_x 
   print(f"Closest seed {len(previous_seeds)}: {closest_x}, {closest_y}")
 
   # SECTION: Draw line from closest point to the origin
-  # plt.plot([0, closest_x], [0, closest_y], '--', color="purple")
   midpoint_x = (0 + closest_x) / 2 # Record the midpoint of unit vector
   midpoint_y = (0 + closest_y) / 2
   unit_vector_mp.append((midpoint_x, midpoint_y))
@@ -77,14 +76,12 @@ while True: # Will be broken when there are no more seeds to process (closest_x 
   magnitude = math.sqrt(closest_x**2 + closest_y**2)
   unit_vector_x = -1*(closest_x / magnitude) # Multiply by -1 to flip the unit vector
   unit_vector_y = -1*(closest_y / magnitude)
-  # plt.arrow(closest_x, closest_y, unit_vector_x, unit_vector_y, head_width=0.3, head_length=0.3, fc='red', ec='red')
 
   # SECTION: Draw a line perpendicular to the unit vector
   perpendicular_x = -unit_vector_y
   perpendicular_y = unit_vector_x
   x_values = np.linspace(-15, 15, 100) # Seemingly infinite line (ray)
   y_values = [closest_y + perpendicular_y * (x - closest_x) / perpendicular_x for x in x_values]
-  # plt.plot(x_values, y_values, 'g--')
   perp_lines_slope.append(perpendicular_y / perpendicular_x) # Record the slope of the perpendicular line
 
   # SECTION: Draw unit vectors from closest to other seeds
@@ -169,14 +166,6 @@ for i in range(len(unit_vector_mp)): # Draw perpendicular lines from the midpoin
     # Draw a line between closest_left and closest_right
     plt.plot([closest_left[0], closest_right[0]], [closest_left[1], closest_right[1]], 'r-')
     
-# plt.plot([x[0] for x in intersections], [x[1] for x in intersections], 'ro', markersize=5)
-
-# for point in unit_vector_mp:
-#   plt.plot(point[0], point[1], 'go', markersize=5)
-
-# for intersection in intersections:
-#   plt.plot([0, intersection[0]], [0, intersection[1]], '--', color="purple")
-
 
 print("Voronoi diagram completed.")
 
@@ -186,6 +175,5 @@ plt.ylim(-15, 15)
 
 plt.plot(0, 0, '*', markersize=8, color='orange')
 plt.plot(perm_seedX[1:], perm_seedY[1:], ".b", markersize=5)
-# plt.plot(removed_seedsX[:], removed_seedsY[:], ".r", markersize=5)
 plt.show()
 
