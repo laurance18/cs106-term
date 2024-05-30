@@ -66,7 +66,7 @@ print("seedX\tseedY\tdistances")
 for x, y, d in zip(perm_seedX, perm_seedY, distances):
   print(f"{x}\t{y}\t{d}")
 
-# SECTION: Fi the closest seeds to the origin
+# SECTION: Find the closest seeds to the origin
 def find_closest():
   global previous_seeds, distances
 
@@ -105,7 +105,7 @@ while True: # Will be broken when there are no more seeds to process (closest_x 
   # SECTION: Draw a line perpendicular to the unit vector
   perpendicular_x = -unit_vector_y
   perpendicular_y = unit_vector_x
-  x_values = np.linspace(-15, 15, 100) # Seemingly infinite line (ray)
+  x_values = np.linspace(-15, 15, 100) # Extend the line to whole graph
   y_values = [closest_y + perpendicular_y * (x - closest_x) / perpendicular_x for x in x_values]
   perp_lines_slope.append(perpendicular_y / perpendicular_x) # Record the slope of the perpendicular line
 
@@ -134,12 +134,8 @@ def find_intersection(slope1, intercept1, slope2, intercept2):
     if slope1 == slope2:
         return None
 
-    # Calculate the x-coordinate of the intersection
     x = (intercept2 - intercept1) / (slope1 - slope2)
-
-    # Substitute x into the equation of the first line to get the y-coordinate
     y = slope1 * x + intercept1
-
     return (x, y)
 
 # SECTION: Draw perpendicular lines from the midpoint of unit vectors
@@ -169,11 +165,9 @@ for i in range(len(unit_vector_mp)):
   # SECTION: Draw the Voronoi Cell
   # WORKAROUND: If an unit_vector midpoint is between two instersections, it is valid
   
-  # Initialize closest points to None
   closest_right = None
   closest_left = None
 
-  # Iterate through the sorted intersections
   for p in current_line_intersections:
       # If the intersection is to the right of the midpoint
       if p[0] > unit_vector_mp[i][0]:
