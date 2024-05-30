@@ -30,13 +30,38 @@ plt.pause(0.30)
 def generate_random(num=20):
   global current_seedX, current_seedY, perm_seedX, perm_seedY
   
-  for _ in range(num-1):
+  for _ in range(num//4):
     r = random.uniform(2.5, 15)
-    theta = math.radians(random.choice([x for x in range(361) if x not in [0, 90, 180, 360]]))
+    theta = math.radians(random.choice([x for x in range(1, 91)]))
     x = r * math.cos(theta)
     y = r * math.sin(theta)
     perm_seedX.append(round(x, 2))
     perm_seedY.append(round(y, 2))
+
+  for _ in range(num//4):
+    r = random.uniform(2.5, 15)
+    theta = math.radians(random.choice([x for x in range(91, 181)]))
+    x = r * math.cos(theta)
+    y = r * math.sin(theta)
+    perm_seedX.append(round(x, 2))
+    perm_seedY.append(round(y, 2))
+
+  for _ in range(num//4):
+    r = random.uniform(2.5, 15)
+    theta = math.radians(random.choice([x for x in range(181, 271)]))
+    x = r * math.cos(theta)
+    y = r * math.sin(theta)
+    perm_seedX.append(round(x, 2))
+    perm_seedY.append(round(y, 2))
+
+  for _ in range(num//4):
+    r = random.uniform(2.5, 15)
+    theta = math.radians(random.choice([x for x in range(271, 361)]))
+    x = r * math.cos(theta)
+    y = r * math.sin(theta)
+    perm_seedX.append(round(x, 2))
+    perm_seedY.append(round(y, 2))
+
   current_seedX = perm_seedX.copy()
   current_seedY = perm_seedY.copy()
 generate_random()
@@ -137,8 +162,6 @@ def find_intersection(slope1, intercept1, slope2, intercept2):
 
     return (x, y)
 
-# SECTION: Find Voronoi Cell
-
 intersections = []
 for i in range(len(perp_lines_slope)):
     for j in range(i+1, len(perp_lines_slope)):
@@ -150,7 +173,9 @@ for i in range(len(perp_lines_slope)):
         if intersection is not None and intersection[0] >= -15 and intersection[0] <= 15 and intersection[1] >= -15 and intersection[1] <= 15:
             intersections.append(intersection)
 
-for i in range(len(unit_vector_mp)): # Draw perpendicular lines from the midpoint of unit vectors
+
+# SECTION: Draw perpendicular lines from the midpoint of unit vectors
+for i in range(len(unit_vector_mp)): 
   slope = perp_lines_slope[i]
   x_intercept = unit_vector_mp[i][0]
   y_intercept = unit_vector_mp[i][1]
@@ -163,7 +188,7 @@ for i in range(len(unit_vector_mp)): # Draw perpendicular lines from the midpoin
   plt.plot(x_values, y_values, 'y-')
   plt.pause(0.30)
 
-  # SECTION: Draw the Voronoi Cell
+  # SECTION: Find and draw the Voronoi Cell
   # WORKAROUND: If an unit_vector midpoint is between two instersections, it is valid
   
   # Initialize closest points to None
@@ -189,15 +214,6 @@ for i in range(len(unit_vector_mp)): # Draw perpendicular lines from the midpoin
     plt.plot([closest_left[0], closest_right[0]], [closest_left[1], closest_right[1]], 'r.')
     plt.pause(0.30)
     
-
-# for point in unit_vector_mp:
-#   plt.plot(point[0], point[1], 'go', markersize=5)
-# plt.pause(0.30)
-
-# for intersection in intersections:
-#   plt.plot([0, intersection[0]], [0, intersection[1]], '--', color="purple")
-# plt.pause(0.30)
-
 
 print("Voronoi diagram completed.")
 
