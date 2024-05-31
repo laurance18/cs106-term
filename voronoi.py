@@ -158,12 +158,11 @@ for i in range(len(unit_vector_mp)):
   x_values = np.linspace(-15, 15, 100)
   y_values = slope * (x_values - x_intercept) + y_intercept
 
-  current_line_intersections = [p for p in intersections if abs((slope * (p[0] - x_intercept) + y_intercept) - p[1]) < 1e-6]
-  current_line_intersections.sort(key=lambda p: p[0])
-
-
   # SECTION: Draw the Voronoi Cell
   # WORKAROUND: If an unit_vector midpoint is between two instersections, it is valid
+
+  current_line_intersections = [p for p in intersections if abs((slope * (p[0] - x_intercept) + y_intercept) - p[1]) < 1e-6]
+  current_line_intersections.sort(key=lambda p: p[0])
   
   closest_right = None
   closest_left = None
@@ -182,7 +181,7 @@ for i in range(len(unit_vector_mp)):
   
   if closest_left is not None and closest_right is not None and closest_left[0] <= unit_vector_mp[i][0] <= closest_right[0]:
     # Draw a line between closest_left and closest_right
-    plt.plot([closest_left[0], closest_right[0]], [closest_left[1], closest_right[1]], 'r-')
+    plt.plot([closest_left[0], closest_right[0]], [closest_left[1], closest_right[1]], '-', color="orange")
     
 
 print("Voronoi diagram completed.")
@@ -191,7 +190,7 @@ print("Voronoi diagram completed.")
 plt.xlim(-15, 15)
 plt.ylim(-15, 15)
 
-plt.plot(0, 0, '*', markersize=8, color='orange')
-plt.plot(perm_seedX[1:], perm_seedY[1:], ".b", markersize=5)
+plt.plot(0, 0, 'x', markersize=5, color='red')
+plt.plot(perm_seedX[1:], perm_seedY[1:], "*", markersize=5)
 plt.show()
 

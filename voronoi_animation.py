@@ -22,7 +22,7 @@ plt.ion()
 plt.xlim(-15, 15)
 plt.ylim(-15, 15)
 
-plt.plot(0, 0, '*', markersize=8, color='orange')
+plt.plot(0, 0, 'x', markersize=8, color='orange')
 plt.pause(0.30)
 
 
