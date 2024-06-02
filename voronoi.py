@@ -159,7 +159,6 @@ for i in range(len(unit_vector_mp)):
   y_values = slope * (x_values - x_intercept) + y_intercept
 
   # SECTION: Draw the Voronoi Cell
-  # WORKAROUND: If an unit_vector midpoint is between two instersections, it is valid
 
   current_line_intersections = [p for p in intersections if abs((slope * (p[0] - x_intercept) + y_intercept) - p[1]) < 1e-6]
   current_line_intersections.sort(key=lambda p: p[0])

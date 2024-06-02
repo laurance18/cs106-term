@@ -189,7 +189,6 @@ for i in range(len(unit_vector_mp)):
   plt.pause(0.30)
 
   # SECTION: Find and draw the Voronoi Cell
-  # WORKAROUND: If an unit_vector midpoint is between two instersections, it is valid
   
   # Initialize closest points to None
   closest_right = None
