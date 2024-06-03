@@ -23,7 +23,7 @@ def generate_random(num=20):
   
   for _ in range(num//4):
     r = random.uniform(2.5, 15)
-    theta = math.radians(random.choice([x for x in range(1, 91)]))
+    theta = math.radians(random.choice([x for x in range(5, 85)]))
     x = r * math.cos(theta)
     y = r * math.sin(theta)
     perm_seedX.append(round(x, 2))
@@ -31,7 +31,7 @@ def generate_random(num=20):
 
   for _ in range(num//4):
     r = random.uniform(2.5, 15)
-    theta = math.radians(random.choice([x for x in range(91, 181)]))
+    theta = math.radians(random.choice([x for x in range(95, 175)]))
     x = r * math.cos(theta)
     y = r * math.sin(theta)
     perm_seedX.append(round(x, 2))
@@ -39,7 +39,7 @@ def generate_random(num=20):
 
   for _ in range(num//4):
     r = random.uniform(2.5, 15)
-    theta = math.radians(random.choice([x for x in range(181, 271)]))
+    theta = math.radians(random.choice([x for x in range(185, 265)]))
     x = r * math.cos(theta)
     y = r * math.sin(theta)
     perm_seedX.append(round(x, 2))
@@ -47,7 +47,7 @@ def generate_random(num=20):
 
   for _ in range(num//4):
     r = random.uniform(2.5, 15)
-    theta = math.radians(random.choice([x for x in range(271, 361)]))
+    theta = math.radians(random.choice([x for x in range(275, 355)]))
     x = r * math.cos(theta)
     y = r * math.sin(theta)
     perm_seedX.append(round(x, 2))
