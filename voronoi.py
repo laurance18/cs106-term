@@ -167,19 +167,14 @@ for i in range(len(unit_vector_mp)):
   closest_left = None
 
   for p in current_line_intersections:
-      # If the intersection is to the right of the midpoint
       if p[0] > unit_vector_mp[i][0]:
-          # If closest_right is None or the current point is closer to the midpoint
           if closest_right is None or abs(p[0] - unit_vector_mp[i][0]) < abs(closest_right[0] - unit_vector_mp[i][0]):
               closest_right = p
-      # If the intersection is to the left of the midpoint
       elif p[0] < unit_vector_mp[i][0]:
-          # If closest_left is None or the current point is closer to the midpoint
           if closest_left is None or abs(p[0] - unit_vector_mp[i][0]) < abs(closest_left[0] - unit_vector_mp[i][0]):
               closest_left = p
   
   if closest_left is not None and closest_right is not None and closest_left[0] <= unit_vector_mp[i][0] <= closest_right[0]:
-    # Draw a line between closest_left and closest_right
     plt.plot([closest_left[0], closest_right[0]], [closest_left[1], closest_right[1]], '-', color="orange")
     
 
