@@ -61,7 +61,7 @@ generate_random()
 for x, y in zip(perm_seedX, perm_seedY):
   distances.append(round(math.sqrt(x**2 + y**2), 2))
 
-# SECTION: Pretty printing results
+# SECTION: Pretty printing seed coordinates & distances
 print("seedX\tseedY\tdistances")
 for x, y, d in zip(perm_seedX, perm_seedY, distances):
   print(f"{x}\t{y}\t{d}")
@@ -97,7 +97,7 @@ while True: # Will be broken when there are no more seeds to process (closest_x 
   midpoint_y = (0 + closest_y) / 2
   unit_vector_mp.append((midpoint_x, midpoint_y))
 
-  # SECTION: Calculate and draw unit vector
+  # SECTION: Calculate unit vector
   magnitude = math.sqrt(closest_x**2 + closest_y**2)
   unit_vector_x = -1*(closest_x / magnitude) # Multiply by -1 to flip the unit vector
   unit_vector_y = -1*(closest_y / magnitude)
@@ -159,6 +159,8 @@ for i in range(len(unit_vector_mp)):
   y_values = slope * (x_values - x_intercept) + y_intercept
 
   # SECTION: Draw the Voronoi Cell
+  # WORKAROUND: Here, I somehow couldn't get atan method to work. So, I came up with this programmatic solution. 
+  # This section finds two CLOSEST intersections on the same line as each midpoint and draws an orange line between them, essentially creating a voronoi cell.
 
   current_line_intersections = [p for p in intersections if abs((slope * (p[0] - x_intercept) + y_intercept) - p[1]) < 1e-6]
   current_line_intersections.sort(key=lambda p: p[0])
@@ -187,4 +189,3 @@ plt.ylim(-15, 15)
 plt.plot(0, 0, 'x', markersize=5, color='red')
 plt.plot(perm_seedX[1:], perm_seedY[1:], "*", markersize=5)
 plt.show()
-
