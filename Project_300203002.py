@@ -188,4 +188,5 @@ plt.ylim(-15, 15)
 
 plt.plot(0, 0, 'x', markersize=5, color='red')
 plt.plot(perm_seedX[1:], perm_seedY[1:], "*", markersize=5)
+plt.title("Voronoi Cell of the Origin")
 plt.show()
